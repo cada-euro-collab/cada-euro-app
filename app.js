@@ -211,3 +211,5 @@ document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==
 window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Sin servicio offline',e));
 render();
+const ajustesOriginales = renderSettings;
+renderSettings = () => ajustesOriginales() + '<div class="card"><a class="ghost wide" style="display:block;text-align:center;text-decoration:none" href="https://cada-euro-collab.github.io/privacidad.html" target="_blank" rel="noopener noreferrer">🔒 Ver política de privacidad</a></div>';
