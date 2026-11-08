@@ -140,7 +140,7 @@ function possibleDuplicate(tx,excludeId=null){
  const previous=data.transactions.find(t=>t.id!==excludeId&&t.type==='expense'&&t.date===tx.date&&norm(t.name)===norm(tx.name)&&Math.abs(Number(t.amount)-tx.amount)<0.005);
  return previous?`Ya existe un gasto normal de «${tx.name}» por ${money(tx.amount)} el mismo día. ¿Guardar otro igual?`:null;
 }
-function newTransaction(existing=null){
+function newTransaction(existing=null){if(existing?.target)existing=null;
  let selectedType=existing?.type||'expense';
  const dialog=`<div class="switcher"><button type="button" data-entry="expense" class="${selectedType==='expense'?'selected':''}">− Gasto</button><button type="button" data-entry="income" class="${selectedType==='income'?'selected':''}">+ Ingreso</button></div><form id="transaction-form"><div class="field"><label for="tramount">Importe (€)</label><input id="tramount" name="amount" type="text" inputmode="decimal" placeholder="Ej. 12,50" value="${existing?.amount??''}" required></div><div class="field"><label for="trname">Concepto</label><input id="trname" name="name" placeholder="Ej. Pedido por internet" maxlength="90" value="${safe(existing?.name??'')}" required></div><div class="field" id="expense-cat" style="${selectedType==='expense'?'':'display:none'}"><label for="trcat">Categoría</label><select id="trcat" name="category">${catOptions(existing?.category||'Supermercado')}</select></div><div class="field"><label for="trdate">Fecha</label><input id="trdate" name="date" type="date" value="${existing?.date||today()}" required></div><button class="btn wide" type="submit">${existing?'Guardar cambios':'Guardar movimiento'}</button></form>`;
  showModal(existing?'Editar movimiento':'Añadir ingreso o gasto',dialog);
